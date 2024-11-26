@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity} from 'react-native';
+import { StatusBar } from "expo-status-bar";
 
-// Importando boton back de los componentes
+// Importando boton back de la carpeta components
 import BotonBack from '../components/BotonBack' // Este es un componente creado por mi para viajar a la pantalla anterior y se puede usar globalmente
 
 export default function Login ({ navigation }) {
@@ -13,6 +14,7 @@ export default function Login ({ navigation }) {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
+        <StatusBar style='dark' />
             <BotonBack />
             <Text style={styles.Title}>Iniciar Session</Text>
             <Text style={styles.Description}>Bienvenido al futuro de nuestro pais</Text>

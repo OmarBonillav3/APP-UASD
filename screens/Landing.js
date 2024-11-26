@@ -1,8 +1,10 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { StatusBar } from "expo-status-bar";
 
 export default function Landing ({ navigation }) {
     return (
         <View style={styles.container}>
+            <StatusBar style='dark' />
             <Image style={styles.img} source={require ('../assets/img/LogoUASD.png')} />
             <Text style={styles.Txt1}>Formamos profesionales éticos y competentes, comprometidos con el desarrollo de la sociedad.</Text>
             <Text style={styles.Txt2}>Con los <Text style={{fontFamily:'RobotoBold'}}>valores</Text> de Excelencia, Compromiso social, Etica, Transparencia e Inclusión</Text>
