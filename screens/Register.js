@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { View, Text, StyleSheet, Platform, TextInput, TouchableWithoutFeedback, Keyboard, TouchableOpacity} from 'react-native';
+import { StatusBar } from "expo-status-bar";
 
 import BotonBack from '../components/BotonBack' // Este es un componente creado por mi para viajar a la pantalla anterior y se puede usar globalmente
 
@@ -12,6 +13,7 @@ export default function Register ({ navigation }) {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
+        <StatusBar style='dark' />
             <BotonBack />
             <Text style={styles.Title}>Register</Text>
             <Text style={styles.Description}>Unete a <Text style={{fontFamily:'OpenSansBold'}}>UASD</Text> y obtén una de las mejores experiencia de aprendizaje del país</Text>

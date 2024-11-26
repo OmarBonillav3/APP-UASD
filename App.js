@@ -28,6 +28,7 @@ import { EvilIcons } from 'react-native-vector-icons'; // Probando icono de usua
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// Funcion para la navegacion tipo stack, esta es la navegacion que se usara para login
 function NavStack () {
   return (
     <Stack.Navigator
@@ -38,12 +39,13 @@ function NavStack () {
       <Stack.Screen name='Landing' component={LandingScreen}/>
       <Stack.Screen name='Login' component={LoginScreen}/>
       <Stack.Screen name='Register' component={RegisterScreen}/>
-      <Stack.Screen name='HomeTabs' component={NavTabs}  options={{  gestureEnabled: false }}/>
+      <Stack.Screen name='HomeTabs' component={NavTabs} options={{  gestureEnabled: false }}/> 
 
     </Stack.Navigator>
   );
 };
 
+// Funcion para lo que es la navegacion por Tabs, es la navegacoin que se usara en la pantalla home y las demas funciones.
 function NavTabs () {
   return (
     <Tab.Navigator>
@@ -121,7 +123,7 @@ function NavTabs () {
             )
           },
           headerRight: () => 
-          <EvilIcons style={styles.UserICon} name='user'/>,
+            <EvilIcons style={styles.UserICon} name='user'/>,
           headerLeft: () => 
             <Image source={require ('./assets/img/LogoUASD.png')} style={styles.ImgLeft}/>
 
@@ -161,6 +163,7 @@ export default function App() {
   }
 
   return (
+    // Agregando las funcines de tipo de navegacion antes creadas, asi como esta puesta NavStack (Ese es el nombre de la funcion de arriba)
     <GestureHandlerRootView>
       <NavigationContainer>
         <NavStack />  
@@ -186,8 +189,6 @@ const styles = StyleSheet.create({
     width:60, 
     height:40, 
     marginLeft:16,
-    marginBottom:6
-    
-      
+    marginBottom:6  
   }
 });
