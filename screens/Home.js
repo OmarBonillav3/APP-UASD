@@ -9,7 +9,7 @@ export default function Home ({ navigation }) {
         <ScrollView style={styles.container}>
             <StatusBar style='dark' />
 
-            <TouchableOpacity onPress={() => navigation.navigate ('User')}>
+            <TouchableOpacity onPress={() => navigation.navigate ('Tarea')}>
                 <View style={styles.ViewTareas}>
                     <Text style={styles.TxtTareas}>Mis Tareas</Text>
                     <AntDesign name='caretright' style={styles.IconTareas}/>
