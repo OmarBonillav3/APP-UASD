@@ -46,6 +46,7 @@ export default function Login ({ navigation }) {
                 username: response.data.data.username,
                 firstName: response.data.data.nombre, // Cambiar a 'nombre'
                 lastName: response.data.data.apellido, // Cambiar a 'apellido'
+                authToken: response.data.data.authToken
               });
     
             Alert.alert("Éxito", "Inicio de sesión exitoso.");

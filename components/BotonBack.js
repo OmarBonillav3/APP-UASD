@@ -29,7 +29,7 @@ const styles = StyleSheet.create ({
     BotonBack: {
         flexDirection: 'row',
         position:'absolute',
-        top:Platform.OS === 'ios' ? 60: 40,
+        top:Platform.OS === 'ios' ? 60: 50,
         marginLeft:16,
     },
     IconBack: {
