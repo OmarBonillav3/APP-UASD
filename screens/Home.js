@@ -1,11 +1,52 @@
-import { View, Text, ScrollView } from 'react-native'
 import { StatusBar } from "expo-status-bar";
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 
-export default function Home () {
+// Importando Iconoso usables
+import { AntDesign } from 'react-native-vector-icons'; // Icono flecha: caretright
+
+export default function Home ({ navigation }) {
     return (
-        <ScrollView style={{ alignContent:'center', flex:1, backgroundColor:'#FBFBFB'}}>
+        <ScrollView style={styles.container}>
             <StatusBar style='dark' />
-            <Text>HOLA MUNDO</Text>
+
+            <TouchableOpacity onPress={() => navigation.navigate ('User')}>
+                <View style={styles.ViewTareas}>
+                    <Text style={styles.TxtTareas}>Mis Tareas</Text>
+                    <AntDesign name='caretright' style={styles.IconTareas}/>
+                </View>
+            </TouchableOpacity>
         </ScrollView>
     );
 };
+
+const styles = StyleSheet.create ({
+    container: {
+        flex:1,
+        backgroundColor:'#FBFBFB',
+        alignContent:'center'
+    },
+    ViewTareas: {
+        flexDirection:'row',
+        alignItems:'center',
+        backgroundColor:'#F0F0F0',
+
+        width:'auto',
+        height:40,
+        marginHorizontal:16,
+        marginTop:19,
+
+        borderRadius:10,
+        borderColor:'#002147',
+        borderWidth:0.8
+    },
+    TxtTareas: {
+        fontFamily:'RobotoRegular',
+        fontSize:14,
+        color:'#00000',
+        marginLeft:16,
+    },
+    IconTareas: {
+        marginLeft:'auto',
+        marginRight:16,
+    },
+})

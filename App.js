@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, Platform, Image } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, Platform, Image, TouchableOpacity } from 'react-native';
 import * as Font from 'expo-font';
 
 // Importando depencias para la navegacion
@@ -16,6 +16,8 @@ import HomeScreen from './screens/Home';
 import InfoScreen from './screens/Info';
 import CalendarScreen from './screens/Calendar';
 import ChatScreen from './screens/Chat';
+import UserScreen from './screens/User';
+import TareaScreen from './screens/Tareas';
 
 // Importando iconos usables
 import { AntDesign } from 'react-native-vector-icons'; // Icono user && home 
@@ -34,11 +36,14 @@ function NavStack () {
     <Stack.Navigator
     screenOptions={{ 
       headerShown: false,
+
     }}
     >
       <Stack.Screen name='Landing' component={LandingScreen}/>
       <Stack.Screen name='Login' component={LoginScreen}/>
       <Stack.Screen name='Register' component={RegisterScreen}/>
+      <Stack.Screen name='User' component={UserScreen}/>
+      <Stack.Screen name='Tarea' component={TareaScreen}/>
       <Stack.Screen name='HomeTabs' component={NavTabs} options={{  gestureEnabled: false }}/> 
 
     </Stack.Navigator>
@@ -46,9 +51,15 @@ function NavStack () {
 };
 
 // Funcion para lo que es la navegacion por Tabs, es la navegacoin que se usara en la pantalla home y las demas funciones.
-function NavTabs () {
+function NavTabs ({ navigation }) {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+    screenOptions={{
+      tabBarShowLabel: false, 
+      tabBarActiveTintColor: '#002147',
+      tabBarInactiveTintColor: '#868585',
+    }}
+    >
       <Tab.Screen 
         name='Home' 
         component={HomeScreen}
@@ -63,7 +74,7 @@ function NavTabs () {
             )
           },
           headerRight: () => 
-          <EvilIcons style={styles.UserICon} name='user'/>,
+            <AntDesign style={styles.UserICon} name='user' onPress={() => navigation.navigate ('User')}/>,
           headerLeft: () => 
             <Image source={require ('./assets/img/LogoUASD.png')} style={styles.ImgLeft}/>
 
@@ -82,11 +93,6 @@ function NavTabs () {
               <Feather name="info" size={size} color={color} />
             )
           },
-          headerRight: () => 
-          <EvilIcons style={styles.UserICon} name='user'/>,
-          headerLeft: () => 
-            <Image source={require ('./assets/img/LogoUASD.png')} style={styles.ImgLeft}/>
-
         }}
         />
       <Tab.Screen
@@ -102,11 +108,6 @@ function NavTabs () {
               <Feather name="calendar" size={size} color={color} />
             )
           },
-          headerRight: () => 
-          <EvilIcons style={styles.UserICon} name='user'/>,
-          headerLeft: () => 
-            <Image source={require ('./assets/img/LogoUASD.png')} style={styles.ImgLeft}/>
-
         }}
         />
       <Tab.Screen
@@ -122,11 +123,6 @@ function NavTabs () {
               <Ionicons name="chatbox-outline" size={size} color={color} />
             )
           },
-          headerRight: () => 
-            <EvilIcons style={styles.UserICon} name='user'/>,
-          headerLeft: () => 
-            <Image source={require ('./assets/img/LogoUASD.png')} style={styles.ImgLeft}/>
-
         }}
         />
         
@@ -179,10 +175,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center' 
   },
   UserICon: {
-    color: '#00000',
-    fontSize: 39,
+    color: '#002147',
+    fontSize: Platform.OS === 'ios' ? 29 : 29,
     marginRight: Platform.OS === 'ios' ? 20 : 18,
-    marginTop: Platform.OS === 'ios' ? 0 : 10,
+    marginBottom: Platform.OS === 'ios' ? 4 : 0,
   },
   ImgLeft: {
     resizeMode:'cover', 
