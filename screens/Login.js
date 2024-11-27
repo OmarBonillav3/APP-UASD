@@ -49,7 +49,10 @@ export default function Login ({ navigation }) {
               });
     
             Alert.alert("Éxito", "Inicio de sesión exitoso.");
-            navigation.navigate('HomeTabs');
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'HomeTabs' }],
+              });
           } else {
             Alert.alert("Error", "Credenciales incorrectas, intenta de nuevo.");
           }

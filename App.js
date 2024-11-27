@@ -52,6 +52,7 @@ function NavStack () {
     </Stack.Navigator>
   );
 };
+// El gestureEnabled: false funciona para no hacer gestos hacia atras y asi no poder volver a la pantala de login
 
 // Funcion para lo que es la navegacion por Tabs, es la navegacoin que se usara en la pantalla home y las demas funciones.
 function NavTabs ({ navigation }) {
