@@ -1,15 +1,65 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TextInput, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Alert} from 'react-native';
 import { StatusBar } from "expo-status-bar";
-
+import axios from 'axios';
 // Importando boton back de la carpeta components
 import BotonBack from '../components/BotonBack' // Este es un componente creado por mi para viajar a la pantalla anterior y se puede usar globalmente
+import { useUser } from '../components/UserContext'; // Importamos el hook del contexto
+
 
 export default function Login ({ navigation }) {
 
     // Declarando constantes de los inputs
     const [matricula, setMatricula] = useState('');
     const [contraseña, setContraseña] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const { setUser } = useUser(); // Usamos setUser para actualizar el contexto con los datos
+
+    
+    const handleLogin = async () => {
+        if (!matricula || !contraseña) {
+          Alert.alert("Error", "Por favor ingresa tu matrícula y contraseña.");
+          return;
+        }
+    
+        setLoading(true);
+    
+        try {
+          const response = await axios.post(
+            'https://uasdapi.ia3x.com/login',
+            {
+              username: matricula.trim(),
+              password: contraseña.trim(),
+            },
+            {
+              headers: {
+                'accept': '*/*',
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+    
+          if (response.data?.data?.authToken) {
+            // Almacenar los datos del usuario en el contexto
+            setUser({
+                username: response.data.data.username,
+                firstName: response.data.data.nombre, // Cambiar a 'nombre'
+                lastName: response.data.data.apellido, // Cambiar a 'apellido'
+              });
+    
+            Alert.alert("Éxito", "Inicio de sesión exitoso.");
+            navigation.navigate('HomeTabs');
+          } else {
+            Alert.alert("Error", "Credenciales incorrectas, intenta de nuevo.");
+          }
+        } catch (error) {
+          console.error("Error de login:", error.response?.data || error.message);
+          Alert.alert("Error", `Ocurrió un problema: ${error.response?.data?.message || error.message}`);
+        } finally {
+          setLoading(false);
+        }
+      };
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -35,7 +85,7 @@ export default function Login ({ navigation }) {
                 secureTextEntry={true}
             /> 
             
-            <TouchableOpacity style={styles.BotonIniciar} onPress={() => navigation.navigate ('HomeTabs')}>
+            <TouchableOpacity style={styles.BotonIniciar} onPress={handleLogin}>
                 <Text style={{fontFamily:'RobotoRegular', fontSize:15, color:'#FFFFFF'}}>Iniciar</Text>
             </TouchableOpacity>
 

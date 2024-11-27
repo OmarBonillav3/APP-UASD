@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, Platform, Image, TouchableOpacity } from 'react-native';
+import { UserProvider } from './components/UserContext'; // Importa el UserProvider
 import * as Font from 'expo-font';
 
 // Importando depencias para la navegacion
@@ -18,6 +19,8 @@ import CalendarScreen from './screens/Calendar';
 import ChatScreen from './screens/Chat';
 import UserScreen from './screens/User';
 import TareaScreen from './screens/Tareas';
+
+
 
 // Importando iconos usables
 import { AntDesign } from 'react-native-vector-icons'; // Icono user && home 
@@ -160,11 +163,13 @@ export default function App() {
 
   return (
     // Agregando las funcines de tipo de navegacion antes creadas, asi como esta puesta NavStack (Ese es el nombre de la funcion de arriba)
-    <GestureHandlerRootView>
-      <NavigationContainer>
-        <NavStack />  
+    <UserProvider>
+      <GestureHandlerRootView>
+        <NavigationContainer>
+          <NavStack />  
       </NavigationContainer>
-  </GestureHandlerRootView>
+    </GestureHandlerRootView>
+  </UserProvider>
   );
 }
 
