@@ -8,21 +8,40 @@ import {
   Platform,
   ActivityIndicator,
   Alert,
-  Modal,
-  TextInput
+  TextInput,
+  Image
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BotonBack from "../components/BotonBack";
 import Icon from "react-native-vector-icons/AntDesign";
 import Circle from "react-native-vector-icons/FontAwesome";
+import { Picker } from "@react-native-picker/picker";
 import { useUser } from "../components/UserContext"; // Importar información del usuario logeado
 import axios from "axios";
 
 export default function Solicitudes() {
-  const [solicitudes, setSolicitudes] = useState([]); // Estado para las solicitudes
-  const [loading, setLoading] = useState(true); // Estado para indicar carga
-  const { user } = useUser(); // Acceder a la información del usuario desde el contexto
-  const [modalVisible, setModalVisible] = useState(false); // Estado para el formulario de agregar solicitudes
+  // Métodos y estados relacionados al formulario para añadir solicitudes
+  const [formVisible, setFormVisible] = useState(false);
+  const toggleFormVisible = () => {
+    setFormVisible((prev) => !prev);
+  };
+  // Estados para los inputs
+  const [tipo, setTipo] = useState(""); // Tipo de solicitud
+  const [descripcion, setDescripcion] = useState(""); // Descripción de la solicitud
+
+  // Estado para las solicitudes
+  const [solicitudes, setSolicitudes] = useState([]);
+  // Estado para indicar carga
+  const [loading, setLoading] = useState(true);
+  // Acceder a la información del usuario desde el contexto
+  const { user } = useUser();
+
+  // Tipos de solicitudes (código en la API/nombre que se va a mostrar en la tarjeta)
+  const tipoMapping = {
+    beca: "Beca",
+    carta_estudio: "Carta de estudios",
+    record_nota: "Record de notas",
+  };
 
   // Llama a la API al cargar el componente
   useEffect(() => {
@@ -47,13 +66,6 @@ export default function Solicitudes() {
     fetchSolicitudes();
   }, []);
 
-  // Tipos de solicitudes (código en la API/nombre que se va a mostrar en la tarjeta)
-  const tipoMapping = {
-    beca: "Beca",
-    carta_estudio: "Carta de estudios",
-    record_nota: "Record de notas",
-  };
-
   // Alternar expansión de tarjeta
   const [expandedCard, setExpandedCard] = useState(null);
   const toggleCard = (id) => {
@@ -65,7 +77,6 @@ export default function Solicitudes() {
     try {
       setLoading(true); // Mostrar indicador de carga
 
-      // Enviar el ID directamente como cuerpo de la solicitud
       const response = await axios.post(
         "https://uasdapi.ia3x.com/cancelar_solicitud",
         id, // Pasar el ID como número
@@ -101,6 +112,42 @@ export default function Solicitudes() {
     }
   };
 
+  // Método para crear una solicitud
+  const handleSubmit = async (tipo, descripcion) => {
+    try {
+      const response = await axios.post(
+        "https://uasdapi.ia3x.com/crear_solicitud",
+        {
+          tipo: tipo,
+          descripcion: descripcion,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.authToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data.success) {
+        // Directly update the solicitudes state to reflect the new request
+        setSolicitudes((prevSolicitudes) => [
+          ...prevSolicitudes,
+          {
+            tipo: tipo,
+            descripcion: descripcion,
+            fechaSolicitud: new Date().toISOString(), // Assuming the current date
+            estado: "Pendiente", // Or any default state
+          },
+        ]);
+
+        Alert.alert("Éxito", "Solicitud creada correctamente.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <BotonBack />
@@ -108,20 +155,64 @@ export default function Solicitudes() {
         <View style={styles.parentCtn}>
           <View style={styles.headerCtn}>
             <Text style={styles.header}>Mis Solicitudes</Text>
-            <TouchableOpacity
-              style={styles.addBtn}
-              onPress={() => setModalVisible(true)}
-            >
+            <TouchableOpacity style={styles.addBtn} onPress={toggleFormVisible}>
               <Icon name="pluscircle" size={30} color="#1c4c96" />
             </TouchableOpacity>
           </View>
-
+          {formVisible && (
+            <View style={styles.form}>
+              <Text style={styles.label}>Tipo de Solicitud:</Text>
+              {/* Aquí va un dropdown menu. Los valores que se van a mostrar son:
+                  - Beca
+                  - Record de notas
+                  - Carta de estudios
+                  y los valores que se enviarán a la API son:
+                  beca, record_nota, carta_estudio, respectivamente.
+              */}
+              <Picker
+                selectedValue={tipo}
+                onValueChange={(itemValue) => {
+                  // console.log("Selected tipo: ", itemValue);
+                  setTipo(itemValue);
+                }}
+                style={styles.picker}
+              >
+                <Picker.Item
+                  label="Seleccionar un tipo"
+                  value="Seleccionar un tipo"
+                />
+                <Picker.Item label="Beca" value="beca" />
+                <Picker.Item label="Record de notas" value="record_nota" />
+                <Picker.Item label="Carta de estudios" value="carta_estudio" />
+              </Picker>
+              <Text style={styles.label}>Descripción:</Text>
+              <TextInput
+                style={styles.input}
+                value={descripcion}
+                onChangeText={setDescripcion}
+              />
+              <TouchableOpacity
+                style={styles.crearBtn}
+                onPress={() => handleSubmit(tipo, descripcion)}
+              >
+                <Text style={styles.crearTxt}>Crear Solicitud</Text>
+              </TouchableOpacity>
+            </View>
+          )}
           {loading ? (
             <ActivityIndicator size="large" color="#1c4c96" />
+          ) : solicitudes.length === 0 ? (
+            <View style={styles.emptyContainer}>
+              <Image source={require('../assets/img/empty.png')} style={styles.image} />
+              <Text style={styles.emptySubtitle}>
+                Aún no tienes solicitudes. Presiona el botón "+" para crear una
+                nueva.
+              </Text>
+            </View>
           ) : (
-            solicitudes.map((solicitud) => (
+            solicitudes.map((solicitud, index) => (
               <TouchableOpacity
-                key={solicitud.id} // Usa el identificador único
+                key={solicitud.id || `solicitud-${index}`} // Usa el identificador único o el index como un Fallback
                 style={styles.card}
                 onPress={() => toggleCard(solicitud.id)} // Alterna expansión
               >
@@ -166,48 +257,6 @@ export default function Solicitudes() {
           )}
         </View>
       </ScrollView>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)} // Para cerrar el modal con el botón "Atrás"
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalHeader}>Crear Solicitud</Text>
-
-            {/* Campos del formulario */}
-            <Text style={styles.label}>Tipo de solicitud:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Selecciona el tipo de solicitud"
-            />
-            <Text style={styles.label}>Descripción:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Descripción de la solicitud"
-              multiline={true}
-            />
-
-            {/* Botón para enviar o cerrar */}
-            <TouchableOpacity
-              style={styles.createBtn}
-              onPress={() => {
-                setModalVisible(false);
-                // Agrega aquí la lógica para manejar la creación de la solicitud
-              }}
-            >
-              <Text style={styles.createBtnText}>Crear solicitud</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.cancelBtn}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.cancelTxt}>Cancelar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 }
@@ -236,6 +285,24 @@ const styles = StyleSheet.create({
   addBtn: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 50,
+    gap: 20,
+    marginTop: 100
+  },
+  image: {
+    width: 300,
+    height: 300,
+  },
+  emptySubtitle: {
+    textAlign: 'center',
+    fontFamily: 'RobotoRegular',
+    color: '#333',
+    fontSize: 16
   },
   card: {
     backgroundColor: "white",
@@ -268,6 +335,35 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   cancelTxt: {
+    color: "white",
+    textAlign: "center",
+  },
+  form: {
+    backgroundColor: "#F0F0F0",
+    padding: 30,
+    borderRadius: 20,
+    flex: 1,
+    gap: 10,
+    marginBottom: 20,
+  },
+  input: {
+    backgroundColor: "white",
+    padding: 15,
+    height: 55,
+    borderRadius: 10,
+  },
+  picker: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  crearBtn: {
+    backgroundColor: "#1C4C96",
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  crearTxt: {
     color: "white",
     textAlign: "center",
   },
