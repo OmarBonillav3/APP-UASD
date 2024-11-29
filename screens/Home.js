@@ -67,6 +67,14 @@ export default function Home({ navigation }) {
         </View>
       </TouchableOpacity>
 
+      {/* Sección Mis Solicitudes */}
+      <TouchableOpacity onPress={() => navigation.navigate("Solicitudes")}>
+        <View style={styles.ViewTareas}>
+          <Text style={styles.TxtTareas}>Mis Solicitudes</Text>
+          <AntDesign name="caretright" style={styles.IconTareas} />
+        </View>
+      </TouchableOpacity>
+
       {/* Sección Noticias */}
       <TouchableOpacity onPress={() => setShowNoticias(!showNoticias)}>
         <View style={[styles.ViewNoticias, { height: 41 }]}>
