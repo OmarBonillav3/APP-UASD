@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import BotonBack from "../components/BotonBack";
 import Icon from "react-native-vector-icons/AntDesign";
 import Circle from "react-native-vector-icons/FontAwesome";
-import { Picker } from "@react-native-picker/picker";
+import { Picker } from "@react-native-picker/picker"; // Importar Picker para los tipos de solicitudes
 import { useUser } from "../components/UserContext"; // Importar información del usuario logeado
 import axios from "axios";
 
@@ -43,7 +43,8 @@ export default function Solicitudes() {
     record_nota: "Record de notas",
   };
 
-  // Llama a la API al cargar el componente
+  // Llamada a la API al cargar el componente
+  // Método para ver las solicitudes creadas
   useEffect(() => {
     const fetchSolicitudes = async () => {
       try {
@@ -55,11 +56,12 @@ export default function Solicitudes() {
             },
           }
         );
-        setSolicitudes(response.data.data); // Actualiza las solicitudes
+        // Asegurar que response.data.data siempre sea un Arra antes de guardarlo en el state
+      setSolicitudes(Array.isArray(response.data.data) ? response.data.data : []);
       } catch (error) {
         console.error("Error al obtener las solicitudes:", error);
       } finally {
-        setLoading(false); // Detén el indicador de carga
+        setLoading(false); // Detener el indicador de carga
       }
     };
 
@@ -74,22 +76,26 @@ export default function Solicitudes() {
 
   // Método para cancelar una solicitud
   const cancelarSolicitud = async (id) => {
+    if (!id) {
+      Alert.alert("Error", "ID de la solicitud no encontrado.");
+      return;
+    }
+  
     try {
-      setLoading(true); // Mostrar indicador de carga
-
+      setLoading(true);
+  
       const response = await axios.post(
         "https://uasdapi.ia3x.com/cancelar_solicitud",
-        id, // Pasar el ID como número
+        id, // Enviar el id para eliminar una solicitud
         {
           headers: {
             Authorization: `Bearer ${user.authToken}`,
-            "Content-Type": "application/json", // Encabezado opcional
+            "Content-Type": "application/json",
           },
         }
       );
-
+  
       if (response.data.success) {
-        // Eliminar la solicitud cancelada de la lista
         setSolicitudes((prev) =>
           prev.filter((solicitud) => solicitud.id !== id)
         );
@@ -108,9 +114,10 @@ export default function Solicitudes() {
           "Ocurrió un problema al cancelar la solicitud."
       );
     } finally {
-      setLoading(false); // Detener indicador de carga
+      setLoading(false);
     }
   };
+  
 
   // Método para crear una solicitud
   const handleSubmit = async (tipo, descripcion) => {
@@ -128,25 +135,32 @@ export default function Solicitudes() {
           },
         }
       );
-
+  
       if (response.data.success) {
-        // Directly update the solicitudes state to reflect the new request
-        setSolicitudes((prevSolicitudes) => [
-          ...prevSolicitudes,
-          {
-            tipo: tipo,
-            descripcion: descripcion,
-            fechaSolicitud: new Date().toISOString(), // Assuming the current date
-            estado: "Pendiente", // Or any default state
-          },
-        ]);
-
         Alert.alert("Éxito", "Solicitud creada correctamente.");
+        setFormVisible(false); // Cerrar el formulario
+        // Hacer un fetch a la lista actualizada de solicitudes después de crear una
+        const updatedSolicitudes = await axios.get(
+          "https://uasdapi.ia3x.com/mis_solicitudes",
+          {
+            headers: {
+              Authorization: `Bearer ${user.authToken}`,
+            },
+          }
+        );
+        setSolicitudes(updatedSolicitudes.data.data); // Actualizar la lista
+      } else {
+        Alert.alert("Error", response.data.error || "No se pudo crear la solicitud.");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error al crear la solicitud:", error.response || error);
+      Alert.alert(
+        "Error",
+        error.response?.data?.message || "Ocurrió un problema al crear la solicitud."
+      );
     }
   };
+  
 
   return (
     <SafeAreaView style={styles.container}>
