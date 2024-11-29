@@ -8,6 +8,8 @@ import {
   Platform,
   ActivityIndicator,
   Alert,
+  Modal,
+  TextInput
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BotonBack from "../components/BotonBack";
@@ -20,6 +22,7 @@ export default function Solicitudes() {
   const [solicitudes, setSolicitudes] = useState([]); // Estado para las solicitudes
   const [loading, setLoading] = useState(true); // Estado para indicar carga
   const { user } = useUser(); // Acceder a la información del usuario desde el contexto
+  const [modalVisible, setModalVisible] = useState(false); // Estado para el formulario de agregar solicitudes
 
   // Llama a la API al cargar el componente
   useEffect(() => {
@@ -61,7 +64,7 @@ export default function Solicitudes() {
   const cancelarSolicitud = async (id) => {
     try {
       setLoading(true); // Mostrar indicador de carga
-  
+
       // Enviar el ID directamente como cuerpo de la solicitud
       const response = await axios.post(
         "https://uasdapi.ia3x.com/cancelar_solicitud",
@@ -73,25 +76,30 @@ export default function Solicitudes() {
           },
         }
       );
-  
+
       if (response.data.success) {
         // Eliminar la solicitud cancelada de la lista
-        setSolicitudes((prev) => prev.filter((solicitud) => solicitud.id !== id));
+        setSolicitudes((prev) =>
+          prev.filter((solicitud) => solicitud.id !== id)
+        );
         Alert.alert("Éxito", "Solicitud cancelada correctamente.");
       } else {
-        Alert.alert("Error", response.data.message || "No se pudo cancelar la solicitud.");
+        Alert.alert(
+          "Error",
+          response.data.message || "No se pudo cancelar la solicitud."
+        );
       }
     } catch (error) {
       console.error("Error al cancelar la solicitud:", error.response || error);
       Alert.alert(
         "Error",
-        error.response?.data?.message || "Ocurrió un problema al cancelar la solicitud."
+        error.response?.data?.message ||
+          "Ocurrió un problema al cancelar la solicitud."
       );
     } finally {
       setLoading(false); // Detener indicador de carga
     }
   };
-  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -100,7 +108,10 @@ export default function Solicitudes() {
         <View style={styles.parentCtn}>
           <View style={styles.headerCtn}>
             <Text style={styles.header}>Mis Solicitudes</Text>
-            <TouchableOpacity style={styles.addBtn}>
+            <TouchableOpacity
+              style={styles.addBtn}
+              onPress={() => setModalVisible(true)}
+            >
               <Icon name="pluscircle" size={30} color="#1c4c96" />
             </TouchableOpacity>
           </View>
@@ -126,9 +137,7 @@ export default function Solicitudes() {
                   <View>
                     <Text style={styles.info}>
                       Fecha de solicitud:{" "}
-                      {new Date(
-                        solicitud.fechaSolicitud
-                      ).toLocaleDateString()}
+                      {new Date(solicitud.fechaSolicitud).toLocaleDateString()}
                     </Text>
                     <View style={styles.estadoCtn}>
                       <Circle
@@ -157,6 +166,48 @@ export default function Solicitudes() {
           )}
         </View>
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)} // Para cerrar el modal con el botón "Atrás"
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalHeader}>Crear Solicitud</Text>
+
+            {/* Campos del formulario */}
+            <Text style={styles.label}>Tipo de solicitud:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Selecciona el tipo de solicitud"
+            />
+            <Text style={styles.label}>Descripción:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Descripción de la solicitud"
+              multiline={true}
+            />
+
+            {/* Botón para enviar o cerrar */}
+            <TouchableOpacity
+              style={styles.createBtn}
+              onPress={() => {
+                setModalVisible(false);
+                // Agrega aquí la lógica para manejar la creación de la solicitud
+              }}
+            >
+              <Text style={styles.createBtnText}>Crear solicitud</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.cancelBtn}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.cancelTxt}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
