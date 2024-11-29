@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 24,
-    color: "#6d747e",
+    color: "#002147",
   },
 });
 
