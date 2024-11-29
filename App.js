@@ -19,14 +19,14 @@ import CalendarScreen from './screens/Calendar';
 import ChatScreen from './screens/Chat';
 import UserScreen from './screens/User';
 import TareaScreen from './screens/Tareas';
-
-
+import MapScreen from './screens/Map'
+import SeleccionScreen from './screens/Seleccion'
 
 // Importando iconos usables
 import { AntDesign } from 'react-native-vector-icons'; // Icono user && home 
 import { Feather } from 'react-native-vector-icons'; // Icono info && calendar
 import { Ionicons } from 'react-native-vector-icons'; //Icono chatbox-outline
-import { EvilIcons } from 'react-native-vector-icons'; // Probando icono de usuario
+import { Octicons } from 'react-native-vector-icons'; // Icono: checklist
 
 
 // Creando constantes para los tipo de navegacion
@@ -47,6 +47,8 @@ function NavStack () {
       <Stack.Screen name='Register' component={RegisterScreen}/>
       <Stack.Screen name='User' component={UserScreen}/>
       <Stack.Screen name='Tarea' component={TareaScreen}/>
+      <Stack.Screen name='Map' component={MapScreen}/>
+
       <Stack.Screen name='HomeTabs' component={NavTabs} options={{  gestureEnabled: false }}/> 
 
     </Stack.Navigator>
@@ -65,23 +67,7 @@ function NavTabs ({ navigation }) {
       tabBarInactiveTintColor: '#868585',
     }}
     >
-      <Tab.Screen
-        name='Calendario' 
-        component={CalendarScreen}
-        options={{
-          headerTitle: '',
-          headerStyle: {
-            backgroundColor: '#F0F0F0',
-          },
-          tabBarIcon: ({ color, size }) => {
-            return (
-              <Feather name="calendar" size={size} color={color} />
-            )
-          },
-        }}
-        />
-      
-        <Tab.Screen 
+       <Tab.Screen 
         name='Home' 
         component={HomeScreen}
         options={{
@@ -102,6 +88,39 @@ function NavTabs ({ navigation }) {
         }}
       />
       <Tab.Screen
+        name='Calendario' 
+        component={CalendarScreen}
+        options={{
+          headerShown: false,
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: '#F0F0F0',
+          },
+          tabBarIcon: ({ color, size }) => {
+            return (
+              <Feather name="calendar" size={size} color={color} />
+            )
+          },
+        }}
+        />
+        <Tab.Screen
+        name='Seleecion' 
+        component={SeleccionScreen}
+        options={{
+          headerShown: false,
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: '#F0F0F0',
+          },
+          tabBarIcon: ({ color, size }) => {
+            return (
+              <Octicons name="checklist" size={size} color={color} />
+            )
+          },
+        }}
+        />
+
+      <Tab.Screen
         name='Info' 
         component={InfoScreen}
         options={{
@@ -117,6 +136,7 @@ function NavTabs ({ navigation }) {
           },
         }}
         />
+    
       
       {/* <Tab.Screen
         name='Chat' 

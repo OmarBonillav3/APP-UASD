@@ -3,8 +3,11 @@ import { View, Text, StyleSheet, TextInput, Platform, TouchableWithoutFeedback, 
 import { StatusBar } from "expo-status-bar";
 import axios from 'axios';
 // Importando boton back de la carpeta components
-import BotonBack from '../components/BotonBack' // Este es un componente creado por mi para viajar a la pantalla anterior y se puede usar globalmente
+import BotonBack from '../components/BotonBack'; // Este es un componente creado por mi para viajar a la pantalla anterior y se puede usar globalmente
 import { useUser } from '../components/UserContext'; // Importamos el hook del contexto
+
+
+//AGREGAR UNA FUNCIONALIDAD DE RECUPERAR CONTRASEñA
 
 
 export default function Login ({ navigation }) {
@@ -13,10 +16,8 @@ export default function Login ({ navigation }) {
     const [matricula, setMatricula] = useState('');
     const [contraseña, setContraseña] = useState('');
     const [loading, setLoading] = useState(false);
-
     const { setUser } = useUser(); // Usamos setUser para actualizar el contexto con los datos
 
-    
     const handleLogin = async () => {
         if (!matricula || !contraseña) {
           Alert.alert("Error", "Por favor ingresa tu matrícula y contraseña.");
