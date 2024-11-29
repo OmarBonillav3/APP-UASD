@@ -42,7 +42,7 @@ const styles = StyleSheet.create ({
     TxtTareas: {
         fontFamily:'RobotoRegular',
         fontSize:14,
-        color:'#00000',
+        color:'#000000',
         marginLeft:16,
     },
     IconTareas: {

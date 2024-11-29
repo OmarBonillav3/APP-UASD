@@ -12,7 +12,7 @@ const BotonBack = ({ style, iconStyle , texto}) => {
     )
 }
                             // NOTAS IMPORTANTES
-// - Tenemos algunos componentes coo el texto y el estilo de este 
+// - Tenemos algunos componentes como el texto y el estilo de este 
 //boton que se puede adaptar de forma separada dependiando de como sea 
 //el diseño de dicha pantalla
 // _______________________________________________________________________

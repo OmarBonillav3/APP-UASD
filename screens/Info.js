@@ -19,19 +19,20 @@ const developers = [
         name: 'Elvin Ramirez',
         matricula: '2022-0335',
         bio: 'Apasionado del desarrollo móvil y web, buscando soluciones innovadoras para mejorar la experiencia del usuario.',
-        photo: require('../assets/img/elvin.jpg'), // link de foto
+        photo: require('../assets/img/elvin.jpg'),
     },
     {
         name: 'Omar Bonilla',
         matricula: '2022-0328',
-        bio: 'busco introducirme en el mundo del desarrollo móvil en la parte del FrontEnd e intento aumentar mis capacidades cada día ',
+        bio: 'Busco introducirme en el mundo del desarrollo móvil en la parte del FrontEnd e intento aumentar mis capacidades cada día ',
         photo: require('../assets/img/omar.jpeg'),
     },
 ];
 
 export default function Info() {
-    const [expandedCard, setExpandedCard] = useState(null);
 
+    //Funcionalidad para expandir la carta
+    const [expandedCard, setExpandedCard] = useState(null);
     const toggleCard = (index) => {
         setExpandedCard(expandedCard === index ? null : index);
     };
@@ -69,9 +70,10 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
+        fontFamily:'RobotoBold',
+        marginTop:120,
+        fontSize: 23,
+        marginBottom: 50,
         textAlign: 'center',
         color: '#333',
     },
@@ -97,20 +99,22 @@ const styles = StyleSheet.create({
         marginRight: 16,
     },
     name: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontFamily:'OpenSansBold',
+        fontSize: 15,
         color: '#444',
     },
     details: {
         marginTop: 8,
     },
     matricula: {
-        fontSize: 16,
+        fontFamily:'OpenSansSemiBold',
+        fontSize: 14,
         color: '#666',
         marginBottom: 8,
     },
     bio: {
-        fontSize: 14,
+        fontFamily:'OpenSansRegular',
+        fontSize: 13,
         color: '#555',
     },
 });

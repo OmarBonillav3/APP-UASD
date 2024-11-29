@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import BotonBack from "../components/BotonBack";
@@ -60,9 +60,13 @@ export default function Tareas() {
     <SafeAreaView style={styles.container}>
       <BotonBack />
       <ScrollView>
+        <View style={{marginTop:30,}}>
+          <Text style={{fontFamily:'RobotoRegular', fontSize:16, alignSelf:'center'}}>Listo para avanzar algunas tareas?</Text>
+          <Text style={{fontFamily:'RobotoBold', fontSize:16, alignSelf:'center'}}>¡Te deseo mucho éxito con tus notas!</Text>
+        </View>
         <View>
           <StatusBar style="dark" />
-  
+          <View style={{marginBottom:20, marginTop:46}}>
           {/* En esta sección aparecen las tareas que están pendientes, según la API */}
           <TouchableOpacity style={styles.headerContainer} onPress={togglePendientes}>
             <DropdownIcon onPress={togglePendientes} isOpen={showPendientes} />
@@ -81,9 +85,10 @@ export default function Tareas() {
                 </View>
               ))
             ) : (
-              <Text>No hay tareas pendientes.</Text>
+              <Text style={{alignSelf:'center', fontSize:14, fontFamily:'RobotoBold', color:'#A8CD89'}}>Ya no tienes mas tareas, Descansa.</Text>
             )
           )}
+          </View>
   
           {/* En esta sección aparecen las tareas que están completadas, según la API */}
           <TouchableOpacity style={styles.headerContainer} onPress={toggleCompletadas}>
@@ -102,7 +107,7 @@ export default function Tareas() {
                 </View>
               ))
             ) : (
-              <Text>No hay tareas completadas.</Text>
+              <Text style={{alignSelf:'center', fontSize:14, fontFamily:'RobotoBold', color:'#ffa7bb'}}>No haz completado ninguna tarea por ahora.</Text>
             )
           )}
         </View>
@@ -115,36 +120,44 @@ export default function Tareas() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 40,
-    paddingHorizontal: 40,
-    backgroundColor: "#f7f7f7",
+    paddingVertical: Platform.OS === 'ios' ? 40 : 50,
+    paddingHorizontal: 16,
+    backgroundColor: "#FBFBFB",
   },
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 20,
-    borderBottomWidth: 0.5,
-    borderColor: "#6d747e",
     paddingVertical: 10,
+    backgroundColor:'#F0F0F0',
+    borderRadius:10,
+    borderColor:'#002147',
+    borderWidth:0.8,
+
+    width:'auto',
+    height:45,
   },
   header: {
-    fontSize: 22,
-    fontFamily: "OpenSansRegular",
-    color: "#6d747e",
+    marginTop:2,
+    fontSize: 15,
+    fontFamily: "RobotoRegular",
+    color: "#000000",
     flex: 1,
   },
   card: {
     backgroundColor: "#fff",
-    flex: 1,
     gap: 23,
     padding: 30,
-    borderRadius: 8,
-    shadowColor: "#000",
     marginBottom: 15,
     elevation: 1,
+    marginTop:2,
+
+    borderBottomEndRadius:20,
+    borderBottomStartRadius:20,
+    borderColor:'#002147',
+    borderWidth:0.8, 
   },
   title: {
+    fontFamily:'OpenSansRegular',
     fontSize: 18,
     fontWeight: "400",
   },
@@ -155,6 +168,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   completedDueDate: {
-    borderLeftColor: "lightblue",
+    borderLeftColor: "#A8CD89",
   },
 });

@@ -58,13 +58,30 @@ function NavStack () {
 function NavTabs ({ navigation }) {
   return (
     <Tab.Navigator
+    initialRouteName="Home" // Agregando como inicio a Home para cuando se navegue a esta funcion lo primero que aparezca sea home.
     screenOptions={{
       tabBarShowLabel: false, 
       tabBarActiveTintColor: '#002147',
       tabBarInactiveTintColor: '#868585',
     }}
     >
-      <Tab.Screen 
+      <Tab.Screen
+        name='Calendario' 
+        component={CalendarScreen}
+        options={{
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: '#F0F0F0',
+          },
+          tabBarIcon: ({ color, size }) => {
+            return (
+              <Feather name="calendar" size={size} color={color} />
+            )
+          },
+        }}
+        />
+      
+        <Tab.Screen 
         name='Home' 
         component={HomeScreen}
         options={{
@@ -88,6 +105,7 @@ function NavTabs ({ navigation }) {
         name='Info' 
         component={InfoScreen}
         options={{
+          headerShown: false,
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#F0F0F0',
@@ -99,22 +117,8 @@ function NavTabs ({ navigation }) {
           },
         }}
         />
-      <Tab.Screen
-        name='Calendario' 
-        component={CalendarScreen}
-        options={{
-          headerTitle: '',
-          headerStyle: {
-            backgroundColor: '#F0F0F0',
-          },
-          tabBarIcon: ({ color, size }) => {
-            return (
-              <Feather name="calendar" size={size} color={color} />
-            )
-          },
-        }}
-        />
-      <Tab.Screen
+      
+      {/* <Tab.Screen
         name='Chat' 
         component={ChatScreen}
         options={{
@@ -128,7 +132,7 @@ function NavTabs ({ navigation }) {
             )
           },
         }}
-        />
+        /> */}
         
     </Tab.Navigator>
   )
