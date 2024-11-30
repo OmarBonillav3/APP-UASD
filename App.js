@@ -105,8 +105,8 @@ function NavTabs ({ navigation }) {
           },
         }}
         />
-        <Tab.Screen
-        name='Seleecion' 
+        {/* <Tab.Screen
+        name='Seleccion' 
         component={SeleccionScreen}
         options={{
           headerShown: false,
@@ -120,7 +120,7 @@ function NavTabs ({ navigation }) {
             )
           },
         }}
-        />
+        /> */}
 
       <Tab.Screen
         name='Info' 

@@ -4,11 +4,11 @@
     "slug": "UASD",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Icon3.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/Icon3.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,12 +17,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/Icon3.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.omarbonilla.UASD"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/Icon3.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a1b2f620-6558-4e0a-bc6d-2ca4aef7d344"
+      }
     }
   }
 }

@@ -99,7 +99,6 @@ export default function Home({ navigation }) {
     <ScrollView style={styles.container}>
       <StatusBar style="dark" />
 
-              {/*   SECCION DE LAS TAREAS   */}
       <TouchableOpacity onPress={() => navigation.navigate("Tarea")}>
         <View style={styles.ViewTareas}>
           <Text style={styles.TxtTareas}>Mis Tareas</Text>
@@ -107,7 +106,6 @@ export default function Home({ navigation }) {
         </View>
       </TouchableOpacity>
 
-      {/* Sección Mis Solicitudes */}
       <TouchableOpacity onPress={() => navigation.navigate("Solicitudes")}>
         <View style={styles.ViewTareas}>
           <Text style={styles.TxtTareas}>Mis Solicitudes</Text>
@@ -115,7 +113,6 @@ export default function Home({ navigation }) {
         </View> 
       </TouchableOpacity>
 
-            {/*   SECCION DE LAS NOTICIAS    */}
       <TouchableOpacity onPress={() => setShowNoticias(!showNoticias)}>
         <View style={[styles.ViewNoticias, { height: 41 }]}>
           <Text style={styles.TxtNoticias}>Noticias</Text>
@@ -132,7 +129,6 @@ export default function Home({ navigation }) {
           return (
             <View key={noticia.id} style={{marginHorizontal:16}}>
             <View style={styles.NoticiaCard}>
-              {/* Contenido de la noticia */}
               <View style={styles.NoticiaHeader}>
                 <Image
                   source={{ uri: noticia.img }}
@@ -149,13 +145,11 @@ export default function Home({ navigation }) {
         })
       ) : null}
 
-      {/* AGREGANDO LA VISTA DE LOS EVENTOS*/}
       {eventos.length > 0 ? (
         eventos.map((evento, index) => (
         <View style={styles.ViewEventos} key={evento.id}>
           <Text style={styles.TxtEventos}>Eventos</Text>
   
-          {/* VISTA DE LAS TARJETAS DE LOS EVENTOS */}
           <TouchableOpacity style={styles.card} onPress={() => toggleCard(index)}>
           <View style={styles.header}>
             <Text style={styles.name}>{evento.titulo}</Text>
@@ -170,7 +164,6 @@ export default function Home({ navigation }) {
                 <Text style={styles.description}>{evento.descripcion}</Text>
                 <Text style={styles.place}>Lugar: {evento.lugar}</Text>
 
-                {/* Botón para ver el mapa */}
                 <TouchableOpacity
                   style={styles.mapButton}
                   onPress={() =>
@@ -189,7 +182,7 @@ export default function Home({ navigation }) {
         No hay eventos disponibles.
       </Text>
     )}
-          {/* VISTAS PARA LOS VIDEOS */}
+
       <View style={styles.ViewVideos}>
           <Text style={styles.TxtVideos}>Videos</Text>
           <AntDesign name="caretright" style={styles.IconTareas} />
@@ -292,8 +285,6 @@ const styles = StyleSheet.create({
   },
         //VIEW PARA LOS EVENTOS
   ViewEventos: {
-    // flexDirection: "row",
-    // alignItems: "center",
     backgroundColor: "#F0F0F0",
     height: 'auto', //Volviendo el cuadro de los eventos responsive segun la cantidad de eventos
     marginHorizontal: 16,

@@ -12,9 +12,6 @@ const Mapa = ({ route }) => {
       <View style={styles.header}>
         <BotonBack  iconStyle={styles.IconBackStyle} />
       </View>
-
-      {/* <Text style={{ textAlign: 'center', fontSize: 20, margin: 10 }}>Lugar del evento</Text> */}
-
       <MapView
         style={{ flex: 1 }}
         initialRegion={{
