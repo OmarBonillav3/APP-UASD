@@ -89,7 +89,7 @@ function NavTabs ({ navigation }) {
 
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name='Calendario' 
         component={CalendarScreen}
         options={{
@@ -104,8 +104,8 @@ function NavTabs ({ navigation }) {
             )
           },
         }}
-        />
-        {/* <Tab.Screen
+        /> */}
+        <Tab.Screen
         name='Seleccion' 
         component={SeleccionScreen}
         options={{
@@ -120,7 +120,7 @@ function NavTabs ({ navigation }) {
             )
           },
         }}
-        /> */}
+        />
 
       <Tab.Screen
         name='Info' 
