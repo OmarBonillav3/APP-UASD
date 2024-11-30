@@ -18,6 +18,7 @@ import InfoScreen from './screens/Info';
 import CalendarScreen from './screens/Calendar';
 import ChatScreen from './screens/Chat';
 import UserScreen from './screens/User';
+import SolicitudesScreen from './screens/Solicitudes'
 import TareaScreen from './screens/Tareas';
 import MapScreen from './screens/Map'
 import SeleccionScreen from './screens/Seleccion'
@@ -47,6 +48,7 @@ function NavStack () {
       <Stack.Screen name='Register' component={RegisterScreen}/>
       <Stack.Screen name='User' component={UserScreen}/>
       <Stack.Screen name='Tarea' component={TareaScreen}/>
+      <Stack.Screen name='Solicitudes' component={SolicitudesScreen}/> 
       <Stack.Screen name='Map' component={MapScreen}/>
 
       <Stack.Screen name='HomeTabs' component={NavTabs} options={{  gestureEnabled: false }}/> 

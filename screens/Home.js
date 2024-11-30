@@ -35,13 +35,15 @@ export default function Home({ navigation }) {
         },
       });
 
-      console.log("Respuesta completa de la API:", response.data); // Log para verificar la estructura
+      // console.log("Respuesta completa de la API:", response.data); // Log para verificar la estructura
 
       // Validar si la API devuelve éxito y si `data` es un array
       if (response.data.success && Array.isArray(response.data.data)) {
         setNoticias(response.data.data.slice(0, 3)); // Guardar solo las tres primeras noticias
         console.log("Noticias cargadas correctamente:", response.data.data.slice(0, 3));
-      } 
+      } else {
+        Alert.alert("Aviso", "No se encontraron noticias en la respuesta.");
+      }
     } catch (error) {
       console.error("Error al obtener noticias:", error.response?.data || error.message);
       Alert.alert(
@@ -103,6 +105,14 @@ export default function Home({ navigation }) {
           <Text style={styles.TxtTareas}>Mis Tareas</Text>
           <AntDesign name="caretright" style={styles.IconTareas} />
         </View>
+      </TouchableOpacity>
+
+      {/* Sección Mis Solicitudes */}
+      <TouchableOpacity onPress={() => navigation.navigate("Solicitudes")}>
+        <View style={styles.ViewTareas}>
+          <Text style={styles.TxtTareas}>Mis Solicitudes</Text>
+          <AntDesign name="caretright" style={styles.IconTareas} />
+        </View> 
       </TouchableOpacity>
 
             {/*   SECCION DE LAS NOTICIAS    */}
