@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Platform, ActivityIndicator, Alert, TextInput, Image } from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Platform, ActivityIndicator, Alert, TextInput, Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BotonBack from "../components/BotonBack";
 import Icon from "react-native-vector-icons/AntDesign";
@@ -152,6 +152,7 @@ export default function Solicitudes() {
   
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <SafeAreaView style={styles.container}>
       <BotonBack />
       <ScrollView>
@@ -261,6 +262,7 @@ export default function Solicitudes() {
         </View>
       </ScrollView>
     </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
