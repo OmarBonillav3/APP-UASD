@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Platform,
-  ActivityIndicator,
-  Alert,
-  TextInput,
-  Image
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Platform, ActivityIndicator, Alert, TextInput, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import BotonBack from "../components/BotonBack";
 import Icon from "react-native-vector-icons/AntDesign";
@@ -279,7 +268,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingVertical: Platform.OS === "ios" ? 40 : 50,
-    paddingHorizontal: 50,
+    paddingHorizontal: 16,
     backgroundColor: "#FBFBFB",
   },
   parentCtn: {
@@ -289,6 +278,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop:40,
     marginBottom: 20,
   },
   header: {
@@ -354,6 +344,8 @@ const styles = StyleSheet.create({
   },
   form: {
     backgroundColor: "#F0F0F0",
+    width:'auto',
+    marginHorizontal:16,
     padding: 30,
     borderRadius: 20,
     flex: 1,
