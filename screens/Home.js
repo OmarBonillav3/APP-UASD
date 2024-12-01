@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert, Platform } from "react-native";
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert, Platform, Linking } from "react-native";
 import axios from "axios";
 
 // Importando componentes
@@ -11,17 +11,19 @@ import DownIcon from "../components/DownIcon";
 import { AntDesign } from "react-native-vector-icons"; // Icono flecha: caretright
 
 export default function Home({ navigation }) {
-  const [noticias, setNoticias] = useState([]);
-  const [expandedId, setExpandedId] = useState(null);
+  const [noticias, setNoticias] = useState([]); // Constantes para la api de noticias
+  const [expandedId, setExpandedId] = useState(null); // Constantes para la expancios de las tarejetas
   const [showNoticias, setShowNoticias] = useState(false); // Estado para mostrar u ocultar noticias
   const [eventos, setEventos] = useState([]); // Contante para la funcion de los eventos
   const [expandedCard, setExpandedCard] = useState(null); // Constante para expandir la tarjeta de los eventos
   const { user } = useUser(); // Constante para las funciones con la api
+  const [videos, setVideos] = useState([]); // Constantes para la api de videos
 
-  const toggleExpand = (id) => {
-    setExpandedId((prevId) => (prevId === id ? null : id));
-  };
+  // const toggleExpand = (id) => {
+  //   setExpandedId((prevId) => (prevId === id ? null : id));
+  // };
 
+  // --------------------------------------------------------------------------------
   // FUNCION PARA OBTENER LAS NOTICIAS
   const fetchNoticias = async () => {
     if (!user || !user.authToken) {
@@ -34,8 +36,6 @@ export default function Home({ navigation }) {
           Authorization: `Bearer ${user.authToken}`,
         },
       });
-
-      // console.log("Respuesta completa de la API:", response.data); // Log para verificar la estructura
 
       // Validar si la API devuelve éxito y si `data` es un array
       if (response.data.success && Array.isArray(response.data.data)) {
@@ -56,8 +56,8 @@ export default function Home({ navigation }) {
   useEffect(() => {
     fetchNoticias();
   }, []);
-
-
+  // --------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------
   //FUNCION PARA OBTENER LOS EVENTOS
   const fetchEventos = async () => {
     if (!user || !user.authToken) {
@@ -93,11 +93,59 @@ export default function Home({ navigation }) {
   const toggleCard = (index) => {
     setExpandedCard(expandedCard === index ? null : index);
   };
+  // --------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------
+  // FUNCION PARA OBTENER VIDEO DE LA API
+  const fetchVideos = async () => {
+    if (!user || !user.authToken) {
+      Alert.alert("Error", "No se encontró un token de autenticación.");
+      return;
+    }
+    try {
+      const response = await axios.get("https://uasdapi.ia3x.com/videos", {
+        headers: {
+          Authorization: `Bearer ${user.authToken} `
+        },
+      });
+      if (Array.isArray(response.data)) {
+        setVideos(response.data);
+      } 
+      console.log("Noticias API Response:", response.data);
+    } catch (error) {
+      console.error("Error al obtener videos:", error.response?.data || error.message);
+      Alert.alert("Error", `No se pudieron cargar los videos: ${error.message}`);
+    }
+  };
+  // CAGANDO EL COMPONENTE
+  useEffect(() => {
+    fetchVideos();
+  }, []);
 
-
+            // CONSTANTE FUNCION PARA EL BOTON DIRIGIR A YOUTUBE
+  const openYouTube = (videoId) => {
+    if (!videoId) {
+      Alert.alert("Error", "URL no válida.");
+      return;
+    }
+  
+    const fullURL = `https://www.youtube.com/watch?v=${videoId}`;
+    Linking.canOpenURL(fullURL)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(fullURL).catch((err) =>
+            console.error("No se pudo abrir el enlace:", err)
+          );
+        } else {
+          Alert.alert("Error", "No se puede abrir la URL.");
+        }
+      })
+      .catch((err) => console.error("Error al verificar la URL:", err));
+  };
+  // --------------------------------------------------------------------------------
+  
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar style="dark" />
+    <ScrollView style={styles.container}> 
+      <StatusBar style="dark" /> 
 
       <TouchableOpacity onPress={() => navigation.navigate("Tarea")}>
         <View style={styles.ViewTareas}>
@@ -117,7 +165,7 @@ export default function Home({ navigation }) {
         <View style={[styles.ViewNoticias, { height: 41 }]}>
           <Text style={styles.TxtNoticias}>Noticias</Text>
           <AntDesign
-            name={showNoticias ? "caretdown" : "caretright"} // Cambiar ícono según estado
+            name={showNoticias ? "caretdown" : "caretright"} 
             style={styles.IconNoticias}
           />
         </View>
@@ -125,7 +173,7 @@ export default function Home({ navigation }) {
 
       {showNoticias && noticias.length > 0 ? (
         noticias.map((noticia) => {
-          const isOpen = expandedId === noticia.id; // Verificar si está expandida
+          const isOpen = expandedId === noticia.id;
           return (
             <View key={noticia.id} style={{marginHorizontal:16}}>
             <View style={styles.NoticiaCard}>
@@ -155,11 +203,11 @@ export default function Home({ navigation }) {
             <Text style={styles.name}>{evento.titulo}</Text>
             <Text style={styles.date}>{new Date(evento.fechaEvento).toLocaleDateString()}</Text>
             <AntDesign
-              name={expandedCard === index ? "caretdown" : "caretright"} // Mostrar "caretdown" si está expandido, "caretright" si no
+              name={expandedCard === index ? "caretdown" : "caretright"} 
               style={styles.IconEventos}
             />
           </View>
-            {expandedCard === index && ( // Si la tarjeta está expandida, mostrar detalles
+            {expandedCard === index && ( 
               <View style={styles.details}>
                 <Text style={styles.description}>{evento.descripcion}</Text>
                 <Text style={styles.place}>Lugar: {evento.lugar}</Text>
@@ -167,7 +215,7 @@ export default function Home({ navigation }) {
                 <TouchableOpacity
                   style={styles.mapButton}
                   onPress={() =>
-                    navigation.navigate('Map', { coordenadas: evento.coordenadas }) // Navegar a la pantalla de mapa
+                    navigation.navigate('Map', { coordenadas: evento.coordenadas })
                   }
                 >
                   <Text style={styles.mapButtonText}>Ver en el mapa</Text>
@@ -183,10 +231,27 @@ export default function Home({ navigation }) {
       </Text>
     )}
 
-      <View style={styles.ViewVideos}>
-          <Text style={styles.TxtVideos}>Videos</Text>
-          <AntDesign name="caretright" style={styles.IconTareas} />
+  <View style={styles.ViewVideos}>
+  <Text style={styles.TxtVideos}>Videos</Text>
+  {videos.length > 0 ? (
+    videos.map((video) => (
+      <View key={video.id} style={styles.videoCard}>
+        <Text style={styles.videoTitle}>{video.titulo}</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => openYouTube(video.url)}
+        >
+          <Text style={styles.buttonText}>Ver en YouTube</Text>
+          <AntDesign name="caretright" style={styles.IconYoutube}/>
+        </TouchableOpacity>
       </View>
+    ))
+  ) : (
+    <Text style={{ textAlign: "center", color: "#888", marginHorizontal:'auto', }}>
+      No hay videos disponibles.
+    </Text>
+  )}
+</View>
     </ScrollView>
   );
 }
@@ -314,8 +379,6 @@ const styles = StyleSheet.create({
     elevation: 3,
     
     borderRadius: 10,
-    borderColor:'#002147',
-    borderWidth:0.8, 
   },
   header: {
     flexDirection: 'row',
@@ -329,7 +392,6 @@ const styles = StyleSheet.create({
     fontSize: Platform.OS === 'ios' ? 15 : 14,
     color: '#444',
     marginRight:5,
-    
   },
   date: {
     fontFamily: 'OpenSansRegular',
@@ -369,21 +431,55 @@ const styles = StyleSheet.create({
   },
         //VIEW PARA LOS VIDEOS
   ViewVideos: {
-    flexDirection: "row",
-    alignItems: "center",
     backgroundColor: "#F0F0F0",
-    height: 40,
+    height:'auto',
     marginHorizontal: 16,
     marginTop: 9,
     borderRadius: 10,
     borderColor: "#002147",
     borderWidth: 0.8,
+    
   },
   TxtVideos: {
     fontFamily: "RobotoRegular",
     fontSize: 14,
     color: "#000000",
     marginLeft: 16,
+    marginVertical:12,
+  },
+  videoCard: {
+    flexDirection: "row",
+    marginBottom:10,
+    backgroundColor:'#fff',
+    padding:16,
+    marginHorizontal:16,
+    borderRadius:10,
+  },
+  videoTitle: {
+    fontFamily: "RobotoBold",
+    fontSize: 14,
+    alignSelf:'center',
+    marginHorizontal:'auto',
+  },
+  button: {
+    flexDirection: "row",
+    backgroundColor:'#002147',
+    borderRadius:10,
+    width:'auto',
+    height:25,
+
+    alignItems:'center',
+    justifyContent:'center', 
+  },
+  buttonText: {
+    color:'#FFFFFF',
+    marginLeft:10,
+    fontFamilyL:'OpenSansRegular'
+  },
+  IconYoutube: {
+    fontSize: 16,
+    color:"#fff",
+    marginHorizontal:5,
   },
         
 });

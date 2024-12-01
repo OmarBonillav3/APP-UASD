@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { View, Text, StyleSheet, Platform, TextInput, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Platform, TextInput, TouchableOpacity, Alert, } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { StatusBar } from "expo-status-bar";
@@ -221,7 +221,5 @@ const styles = StyleSheet.create ({
         fontSize:14,
         marginBottom:4,
         fontFamily:'RobotoBold'
-    
-
     },
 })

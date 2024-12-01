@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, Platform, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Platform, Image } from 'react-native';
 import { UserProvider } from './components/UserContext'; // Importa el UserProvider
 import * as Font from 'expo-font';
 
@@ -15,13 +15,14 @@ import LoginScreen from './screens/Login';
 import RegisterScreen from './screens/Register';
 import HomeScreen from './screens/Home';
 import InfoScreen from './screens/Info';
-import CalendarScreen from './screens/Calendar';
-import ChatScreen from './screens/Chat';
 import UserScreen from './screens/User';
 import SolicitudesScreen from './screens/Solicitudes'
 import TareaScreen from './screens/Tareas';
 import MapScreen from './screens/Map'
 import SeleccionScreen from './screens/Seleccion'
+import NewPasswordScreeen from './screens/NewPassword'
+// import CalendarScreen from './screens/Calendar';
+// import ChatScreen from './screens/Chat';
 
 // Importando iconos usables
 import { AntDesign } from 'react-native-vector-icons'; // Icono user && home 
@@ -40,17 +41,15 @@ function NavStack () {
     <Stack.Navigator
     screenOptions={{ 
       headerShown: false,
-
-    }}
-    >
+    }} >
       <Stack.Screen name='Landing' component={LandingScreen}/>
       <Stack.Screen name='Login' component={LoginScreen}/>
+      <Stack.Screen name='NewPassword' component={NewPasswordScreeen}/>
       <Stack.Screen name='Register' component={RegisterScreen}/>
       <Stack.Screen name='User' component={UserScreen}/>
       <Stack.Screen name='Tarea' component={TareaScreen}/>
       <Stack.Screen name='Solicitudes' component={SolicitudesScreen}/> 
       <Stack.Screen name='Map' component={MapScreen}/>
-
       <Stack.Screen name='HomeTabs' component={NavTabs} options={{  gestureEnabled: false }}/> 
 
     </Stack.Navigator>
@@ -87,24 +86,8 @@ function NavTabs ({ navigation }) {
           headerLeft: () => 
             <Image source={require ('./assets/img/LogoUASD.png')} style={styles.ImgLeft}/>
 
-        }}
-      />
-      {/* <Tab.Screen
-        name='Calendario' 
-        component={CalendarScreen}
-        options={{
-          headerShown: false,
-          headerTitle: '',
-          headerStyle: {
-            backgroundColor: '#F0F0F0',
-          },
-          tabBarIcon: ({ color, size }) => {
-            return (
-              <Feather name="calendar" size={size} color={color} />
-            )
-          },
-        }}
-        /> */}
+        }} />
+
         <Tab.Screen
         name='Seleccion' 
         component={SeleccionScreen}
@@ -119,8 +102,7 @@ function NavTabs ({ navigation }) {
               <Octicons name="checklist" size={size} color={color} />
             )
           },
-        }}
-        />
+        }} />
 
       <Tab.Screen
         name='Info' 
@@ -136,30 +118,10 @@ function NavTabs ({ navigation }) {
               <Feather name="info" size={size} color={color} />
             )
           },
-        }}
-        />
-    
-      
-      {/* <Tab.Screen
-        name='Chat' 
-        component={ChatScreen}
-        options={{
-          headerTitle: '',
-          headerStyle: {
-            backgroundColor: '#F0F0F0',
-          },
-          tabBarIcon: ({ color, size }) => {
-            return (
-              <Ionicons name="chatbox-outline" size={size} color={color} />
-            )
-          },
-        }}
-        /> */}
-        
+        }} />       
     </Tab.Navigator>
   )
 }
-
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false); // Constante para el uso de las fuentes

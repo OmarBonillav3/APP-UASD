@@ -6,10 +6,6 @@ import axios from 'axios';
 import BotonBack from '../components/BotonBack'; // Este es un componente creado por mi para viajar a la pantalla anterior y se puede usar globalmente
 import { useUser } from '../components/UserContext'; // Importamos el hook del contexto
 
-
-//AGREGAR UNA FUNCIONALIDAD DE RECUPERAR CONTRASEñA
-
-
 export default function Login ({ navigation }) {
 
     // Declarando constantes de los inputs
@@ -101,6 +97,8 @@ export default function Login ({ navigation }) {
                     <Text style={styles.Txt2Boton}> Inscribete</Text>
                 </TouchableOpacity>
             </View>
+            <View style={styles.BotonNewPassword}>
+            </View>
 
         </View>
         </TouchableWithoutFeedback>
@@ -125,7 +123,6 @@ const styles = StyleSheet.create ({
         color:'#000000',  
         alignSelf:'center', 
         marginTop:8, 
-         
     },
 
     // Agregando estilos a los inputs
@@ -182,7 +179,13 @@ const styles = StyleSheet.create ({
         fontSize:14,
         marginBottom:4,
         fontFamily:'RobotoBold'
-    
-
+    },
+    BotonNewPassword: {
+      alignItems:'center',
+    },
+    TxtPassword: {
+      fontFamily:'RobotoBold',
+      fontSize:14,
+      color:'#002147',
     },
 })
