@@ -16,11 +16,13 @@
       "supportsTablet": true
     },
     "android": {
+      "permissions": ["CAMERA", "ACCESS_FINE_LOCATION"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/Icon3.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.omarbonilla.UASD"
+      
     },
     "web": {
       "favicon": "./assets/Icon3.png"

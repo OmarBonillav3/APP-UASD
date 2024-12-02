@@ -122,25 +122,19 @@ export default function Home({ navigation }) {
   }, []);
 
             // CONSTANTE FUNCION PARA EL BOTON DIRIGIR A YOUTUBE
-  const openYouTube = (videoId) => {
-    if (!videoId) {
-      Alert.alert("Error", "URL no válida.");
-      return;
-    }
-  
-    const fullURL = `https://www.youtube.com/watch?v=${videoId}`;
-    Linking.canOpenURL(fullURL)
-      .then((supported) => {
-        if (supported) {
-          Linking.openURL(fullURL).catch((err) =>
-            console.error("No se pudo abrir el enlace:", err)
-          );
-        } else {
-          Alert.alert("Error", "No se puede abrir la URL.");
-        }
-      })
-      .catch((err) => console.error("Error al verificar la URL:", err));
-  };
+            const openYouTube = (videoId) => {
+              if (!videoId) {
+                Alert.alert("Error", "URL no válida.");
+                return;
+              }
+            
+              const fullURL = `https://www.youtube.com/watch?v=${videoId}`;
+              Linking.openURL(fullURL).catch((err) => {
+                console.error("No se pudo abrir el enlace:", err);
+                Alert.alert("Error", "No se pudo abrir la URL.");
+              });
+            };
+
   // --------------------------------------------------------------------------------
   
   return (
@@ -214,9 +208,13 @@ export default function Home({ navigation }) {
 
                 <TouchableOpacity
                   style={styles.mapButton}
-                  onPress={() =>
-                    navigation.navigate('Map', { coordenadas: evento.coordenadas })
-                  }
+                  onPress={() => {
+                      // Convertir la cadena de coordenadas a un array de números
+                      const coords = evento.coordenadas.split(',').map(coord => parseFloat(coord.trim()));
+
+                      // Enviar las coordenadas convertidas a la pantalla del mapa
+                      navigation.navigate('Map', { coordenadas: coords });
+                    }}
                 >
                   <Text style={styles.mapButtonText}>Ver en el mapa</Text>
                 </TouchableOpacity>

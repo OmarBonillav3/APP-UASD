@@ -46,7 +46,7 @@ export default function Login ({ navigation }) {
                 authToken: response.data.data.authToken
               });
     
-            Alert.alert("Éxito", "Inicio de sesión exitoso.");
+            // Alert.alert("Éxito", "Inicio de sesión exitoso.");
             navigation.reset({
                 index: 0,
                 routes: [{ name: 'HomeTabs' }],
