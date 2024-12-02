@@ -96,8 +96,6 @@ export default function Seleccion ({ navigation }) {
       );
     }
   };
-
-
   // Cargar materias y preseleccionadas al montar el componente
   useEffect(() => {
     fetchMaterias();
@@ -109,7 +107,6 @@ export default function Seleccion ({ navigation }) {
       <StatusBar style="dark" />
       <Text style={styles.title}>Preselección de Materias</Text>
 
-      {/* Lista de materias disponibles */}
       <Text style={styles.subtitleDisponibles}>Materias Disponibles</Text>
       {materias.length > 0 ? (
         materias.map((materia) => (
@@ -130,7 +127,6 @@ export default function Seleccion ({ navigation }) {
         <Text style={styles.emptyText}>No hay materias disponibles en este momento.</Text>
       )}
 
-      {/* Lista de materias preseleccionadas */}
       <Text style={styles.subtitlePreseleccion}>Materias Preseleccionadas</Text>
       {preseleccionadas.length > 0 ? (
         preseleccionadas.map((materia) => (

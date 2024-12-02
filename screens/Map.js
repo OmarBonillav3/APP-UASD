@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+
+// Importando componentes
 import BotonBack from '../components/BotonBack';
 
 const Mapa = ({ route, navigation }) => {
@@ -46,7 +48,6 @@ const Mapa = ({ route, navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
-        {/* Botón de retroceso */}
         <BotonBack 
           iconStyle={styles.IconBackStyle} 
           onPress={() => navigation.goBack()} 
@@ -55,8 +56,8 @@ const Mapa = ({ route, navigation }) => {
       <MapView
         style={{ flex: 1 }}
         initialRegion={{
-          latitude: coordenadas[0], // Latitud
-          longitude: coordenadas[1], // Longitud
+          latitude: coordenadas[0], 
+          longitude: coordenadas[1],
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
@@ -70,10 +71,10 @@ const Mapa = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   header: {
     position: 'absolute',
-    top: 10, // Distancia desde la parte superior
-    left: 10, // Distancia desde el borde izquierdo
-    zIndex: 1, // Asegura que el botón esté por encima del mapa
-    backgroundColor: 'transparent', // Hacer que el fondo sea transparente
+    top: 10, 
+    left: 10,
+    zIndex: 1, 
+    backgroundColor: 'transparent', 
   },
   IconBackStyle: {
     fontSize: 30,

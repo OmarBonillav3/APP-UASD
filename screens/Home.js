@@ -19,10 +19,6 @@ export default function Home({ navigation }) {
   const { user } = useUser(); // Constante para las funciones con la api
   const [videos, setVideos] = useState([]); // Constantes para la api de videos
 
-  // const toggleExpand = (id) => {
-  //   setExpandedId((prevId) => (prevId === id ? null : id));
-  // };
-
   // --------------------------------------------------------------------------------
   // FUNCION PARA OBTENER LAS NOTICIAS
   const fetchNoticias = async () => {
@@ -58,7 +54,7 @@ export default function Home({ navigation }) {
   }, []);
   // --------------------------------------------------------------------------------
   // --------------------------------------------------------------------------------
-  //FUNCION PARA OBTENER LOS EVENTOS
+            //FUNCION PARA OBTENER LOS EVENTOS
   const fetchEventos = async () => {
     if (!user || !user.authToken) {
       Alert.alert("Error", "No se encontró un token de autenticación.");
@@ -479,5 +475,4 @@ const styles = StyleSheet.create({
     color:"#fff",
     marginHorizontal:5,
   },
-        
 });

@@ -1,11 +1,13 @@
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import BotonBack from "../components/BotonBack";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+//Importando componente
+import BotonBack from "../components/BotonBack";
 import DropdownIcon from "../components/DropdownIcon"; // Importar el componente de DropdownIcon
 import { useUser } from "../components/UserContext"; // Importar información del usuario logeado
-import axios from "axios";
 
 export default function Tareas() {
   const [showPendientes, setShowPendientes] = useState(true);
@@ -30,8 +32,6 @@ export default function Tareas() {
           Authorization: `Bearer ${user.authToken}`, // Se usa el token del contexto enviado desde el login.
         },
       });
-  
-    // console.log(response.data);
   
       if (Array.isArray(response.data)) {
         // Separar las tareas dependiendo de si están completadas o incompletas
@@ -67,7 +67,7 @@ export default function Tareas() {
         <View>
           <StatusBar style="dark" />
           <View style={{marginBottom:20, marginTop:46}}>
-          {/* En esta sección aparecen las tareas que están pendientes, según la API */}
+    
           <TouchableOpacity style={styles.headerContainer} onPress={togglePendientes}>
             <DropdownIcon onPress={togglePendientes} isOpen={showPendientes} />
             <Text style={styles.header}>Pendientes</Text>
@@ -79,7 +79,6 @@ export default function Tareas() {
                   <Text style={styles.title}>{tarea.titulo}</Text>
                   <Text>{tarea.descripcion}</Text> 
                   <Text style={styles.dueDate}>
-                    {/* Convertir la fecha a string */}
                    Fecha de vencimiento: {new Date(tarea.fechaVencimiento).toLocaleDateString()} 
                   </Text>
                 </View>
@@ -90,7 +89,6 @@ export default function Tareas() {
           )}
           </View>
   
-          {/* En esta sección aparecen las tareas que están completadas, según la API */}
           <TouchableOpacity style={styles.headerContainer} onPress={toggleCompletadas}>
             <DropdownIcon onPress={toggleCompletadas} isOpen={showCompletadas} />
             <Text style={styles.header}>Completadas</Text>
@@ -114,8 +112,7 @@ export default function Tareas() {
       </ScrollView>
     </SafeAreaView>
   );
-  
-}
+};
 
 const styles = StyleSheet.create({
   container: {

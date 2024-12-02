@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Platform, ActivityIndicator, Alert, TextInput, Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import BotonBack from "../components/BotonBack";
-import Icon from "react-native-vector-icons/AntDesign";
+import Icon from "react-native-vector-icons/AntDesign"; // Importando iconos usables
 import Circle from "react-native-vector-icons/FontAwesome";
 import { Picker } from "@react-native-picker/picker"; // Importar Picker para los tipos de solicitudes
-import { useUser } from "../components/UserContext"; // Importar información del usuario logeado
 import axios from "axios";
+
+//Importanto componentes
+import BotonBack from "../components/BotonBack";
+import { useUser } from "../components/UserContext"; // Importar información del usuario logeado
 
 export default function Solicitudes() {
   // Métodos y estados relacionados al formulario para añadir solicitudes
@@ -14,16 +16,12 @@ export default function Solicitudes() {
   const toggleFormVisible = () => {
     setFormVisible((prev) => !prev);
   };
-  // Estados para los inputs
+  
   const [tipo, setTipo] = useState(""); // Tipo de solicitud
   const [descripcion, setDescripcion] = useState(""); // Descripción de la solicitud
-
-  // Estado para las solicitudes
-  const [solicitudes, setSolicitudes] = useState([]);
-  // Estado para indicar carga
-  const [loading, setLoading] = useState(true);
-  // Acceder a la información del usuario desde el contexto
-  const { user } = useUser();
+  const [solicitudes, setSolicitudes] = useState([]); // Estado para las solicitudes
+  const [loading, setLoading] = useState(true); // Estado para indicar carga
+  const { user } = useUser(); // Acceder a la información del usuario desde el contexto
 
   // Tipos de solicitudes (código en la API/nombre que se va a mostrar en la tarjeta)
   const tipoMapping = {
@@ -41,7 +39,7 @@ export default function Solicitudes() {
           "https://uasdapi.ia3x.com/mis_solicitudes",
           {
             headers: {
-              Authorization: `Bearer ${user.authToken}`, // Token del contexto
+              Authorization: `Bearer ${user.authToken}`,
             },
           }
         );
@@ -50,7 +48,7 @@ export default function Solicitudes() {
       } catch (error) {
         console.error("Error al obtener las solicitudes:", error);
       } finally {
-        setLoading(false); // Detener el indicador de carga
+        setLoading(false); 
       }
     };
 
@@ -107,7 +105,6 @@ export default function Solicitudes() {
     }
   };
   
-
   // Método para crear una solicitud
   const handleSubmit = async (tipo, descripcion) => {
     try {
@@ -166,17 +163,10 @@ export default function Solicitudes() {
           {formVisible && (
             <View style={styles.form}>
               <Text style={styles.label}>Tipo de Solicitud:</Text>
-              {/* Aquí va un dropdown menu. Los valores que se van a mostrar son:
-                  - Beca
-                  - Record de notas
-                  - Carta de estudios
-                  y los valores que se enviarán a la API son:
-                  beca, record_nota, carta_estudio, respectivamente.
-              */}
+              
               <Picker
                 selectedValue={tipo}
                 onValueChange={(itemValue) => {
-                  // console.log("Selected tipo: ", itemValue);
                   setTipo(itemValue);
                 }}
                 style={styles.picker}
@@ -216,9 +206,9 @@ export default function Solicitudes() {
           ) : (
             solicitudes.map((solicitud, index) => (
               <TouchableOpacity
-                key={solicitud.id || `solicitud-${index}`} // Usa el identificador único o el index como un Fallback
+                key={solicitud.id || `solicitud-${index}`} 
                 style={styles.card}
-                onPress={() => toggleCard(solicitud.id)} // Alterna expansión
+                onPress={() => toggleCard(solicitud.id)} 
               >
                 <Text style={styles.title}>
                   {solicitud.descripcion || "Descripción no disponible"}
@@ -227,7 +217,6 @@ export default function Solicitudes() {
                   {tipoMapping[solicitud.tipo] || "Tipo desconocido"}
                 </Text>
 
-                {/* Mostrar detalles si está expandida */}
                 {expandedCard === solicitud.id && (
                   <View>
                     <Text style={styles.info}>
@@ -264,7 +253,7 @@ export default function Solicitudes() {
     </SafeAreaView>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

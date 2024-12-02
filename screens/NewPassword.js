@@ -6,7 +6,7 @@ import axios from "axios";
 import BotonBack from "../components/BotonBack"; 
 import { useUser } from "../components/UserContext"; // Importamos el hook del contexto
 
-export default function NewPassword() {
+export default function NewPassword ({ navigation }) {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -46,6 +46,10 @@ export default function NewPassword() {
         setOldPassword('');
         setNewPassword('');
         setConfirmPassword('');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Landing" }],
+        })
       } else {
         Alert.alert("Error", response.data.error || "Hubo un problema con la solicitud.");
       }
@@ -60,8 +64,7 @@ export default function NewPassword() {
     <View style={styles.Container}>
         <BotonBack />
         <Text style={styles.Title}>Cambiar Contraseña</Text>
-      
-      {/* Campo de la antigua contraseña */}
+    
       <TextInput
         placeholder="Contraseña actual"
         value={oldPassword}
@@ -70,7 +73,6 @@ export default function NewPassword() {
         style={styles.TextInput}
       />
 
-      {/* Campo de la nueva contraseña */}
       <TextInput
         placeholder="Nueva Contraseña"
         value={newPassword}
@@ -79,7 +81,6 @@ export default function NewPassword() {
         style={styles.TextInput2}
       />
 
-      {/* Campo para confirmar la nueva contraseña */}
       <TextInput
         placeholder="Confirmar Nueva Contraseña"
         value={confirmPassword}
@@ -88,7 +89,6 @@ export default function NewPassword() {
         style={styles.TextInput3}
       />
 
-      {/* Botón para enviar la solicitud de cambio de contraseña */}
       <TouchableOpacity style={styles.BotonCambiar} onPress={handleChangePassword}>
         <Text style={{ fontFamily: "RobotoRegular", fontSize: 15, color: "#FFFFFF" }}>
           Cambiar

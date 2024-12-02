@@ -130,12 +130,10 @@ export default function Register ({ navigation }) {
                 secureTextEntry={true}
             /> 
 
-
             <TouchableOpacity style={styles.BotonIniciar} onPress={handleRegister} disabled={loading}>
                 <Text style={{fontFamily:'RobotoRegular', fontSize:15, color:'#FFFFFF'}}>Registrarse</Text>
             </TouchableOpacity>
-
-            {/* Agregando el boton para iniciar session desde la pantalla login */}
+            
             <View style={styles.BotonInscribir}>
                 <Text style={styles.Txt1Boton}>Ya estas matriculado?</Text>
                 <TouchableOpacity onPress={() => navigation.navigate ('Login')}>

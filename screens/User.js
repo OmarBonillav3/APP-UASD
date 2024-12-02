@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     alignSelf: "center",
   },
-  // ESTILO PARA EL VIEW DEUDAS
+        // ESTILO PARA EL VIEW DEUDAS
   DeudaContainer: {
     position: 'absolute',  
     bottom: Platform.OS === 'ios' ? 80 : 60,            
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 
-  // ESTILO PARA EL MODAL
+      // ESTILO PARA EL MODAL
   modalOverlay: {
     flex: 1,
     justifyContent: "center",

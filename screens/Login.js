@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Alert} from 'react-native';
 import { StatusBar } from "expo-status-bar";
 import axios from 'axios';
+
 // Importando boton back de la carpeta components
 import BotonBack from '../components/BotonBack'; // Este es un componente creado por mi para viajar a la pantalla anterior y se puede usar globalmente
 import { useUser } from '../components/UserContext'; // Importamos el hook del contexto
@@ -19,7 +20,6 @@ export default function Login ({ navigation }) {
           Alert.alert("Error", "Por favor ingresa tu matrícula y contraseña.");
           return;
         }
-    
         setLoading(true);
     
         try {
@@ -41,12 +41,11 @@ export default function Login ({ navigation }) {
             // Almacenar los datos del usuario en el contexto
             setUser({
                 username: response.data.data.username,
-                firstName: response.data.data.nombre, // Cambiar a 'nombre'
-                lastName: response.data.data.apellido, // Cambiar a 'apellido'
+                firstName: response.data.data.nombre, 
+                lastName: response.data.data.apellido, 
                 authToken: response.data.data.authToken
               });
     
-            // Alert.alert("Éxito", "Inicio de sesión exitoso.");
             navigation.reset({
                 index: 0,
                 routes: [{ name: 'HomeTabs' }],
@@ -70,36 +69,31 @@ export default function Login ({ navigation }) {
             <Text style={styles.Title}>Iniciar Session</Text>
             <Text style={styles.Description}>Bienvenido al futuro de nuestro pais</Text>
 
-            {/* Agregando input para el inicio de session */}
             <TextInput
-                placeholder='Matricula '
-                value={matricula}
-                onChangeText={setMatricula}
-                style={styles.TextInput} 
+              placeholder='Matricula '
+              value={matricula}
+              onChangeText={setMatricula}
+              style={styles.TextInput} 
             />
 
             <TextInput
-                placeholder='Contraseña'
-                value={contraseña}
-                onChangeText={setContraseña}
-                style={styles.TextInput2} 
-                secureTextEntry={true}
+              placeholder='Contraseña'
+              value={contraseña}
+              onChangeText={setContraseña}
+              style={styles.TextInput2} 
+              secureTextEntry={true}
             /> 
             
             <TouchableOpacity style={styles.BotonIniciar} onPress={handleLogin}>
-                <Text style={{fontFamily:'RobotoRegular', fontSize:15, color:'#FFFFFF'}}>Iniciar</Text>
+              <Text style={{fontFamily:'RobotoRegular', fontSize:15, color:'#FFFFFF'}}>Iniciar</Text>
             </TouchableOpacity>
 
-            {/* Agregando el boton para iniciar session desde la pantalla login */}
             <View style={styles.BotonInscribir}>
-                <Text style={styles.Txt1Boton}>No estas matriculado?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate ('Register')}>
-                    <Text style={styles.Txt2Boton}> Inscribete</Text>
-                </TouchableOpacity>
+              <Text style={styles.Txt1Boton}>No estas matriculado?</Text>
+              <TouchableOpacity onPress={() => navigation.navigate ('Register')}>
+                  <Text style={styles.Txt2Boton}> Inscribete</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.BotonNewPassword}>
-            </View>
-
         </View>
         </TouchableWithoutFeedback>
     );

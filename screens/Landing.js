@@ -9,7 +9,6 @@ export default function Landing ({ navigation }) {
             <Text style={styles.Txt1}>Formamos profesionales éticos y competentes, comprometidos con el desarrollo de la sociedad.</Text>
             <Text style={styles.Txt2}>Con los <Text style={{fontFamily:'RobotoBold'}}>valores</Text> de Excelencia, Compromiso social, Etica, Transparencia e Inclusión</Text>
 
-            {/* Agreando botones para iniciar session y registrase */}
             <TouchableOpacity style={styles.BotonLogin} onPress={() => navigation.navigate('Login')}>
                 <Text style={{color:'#FFFFFF', }}>Iniciar Session</Text>
             </TouchableOpacity>
@@ -17,8 +16,8 @@ export default function Landing ({ navigation }) {
                 <Text style={{color:'#002147', }}>Inscribirse</Text>
             </TouchableOpacity>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create ({
     container: { flex: 1, backgroundColor:'#FBFBFB'},
